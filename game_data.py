@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 import time
 
-API_KEY = "673c957ec774443996bf12bb2d46960f"
+API_KEY = "" # fetch it from .env
 BASE_URL = "https://api.rawg.io/api/games"
 PAGE_SIZE = 40  # Max page size allowed
 MAX_PAGES = 250  # 1250 * 40 = 50,000 games
