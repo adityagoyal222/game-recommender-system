@@ -7,7 +7,7 @@ def get_similar_games(game_name, count=5):
     search_url = f"{BASE_URL}/games"
     params = {"search": game_name, "key": API_KEY}
     response = requests.get(search_url, params=params)
-
+    
     if response.status_code != 200:
         raise Exception(f"Error: {response.status_code} - {response.text}")
     
@@ -24,11 +24,20 @@ def get_similar_games(game_name, count=5):
     if not genres:
         return []
     
-    genre_slug = genres[0]["slug"]
-
+    genre_slug = []
+    is_action = False
+    for i in range(len(genres)):
+        if(genres[i]['slug'] == 'action'):
+            is_action=True
+            continue
+        genre_slug.append(genres[i]['slug'])
+    if is_action:
+        genre_slug.append('action')
+    genre_slug = ','.join(genre_slug)
+    print(genre_slug)
     # Find other games in the same genre
     similar_url = f"{BASE_URL}/games"
-    similar_params = {"genres": genre_slug, "key": API_KEY, "page_size": count}
+    similar_params = {"genres": genre_slug, "key": API_KEY, "page_size": count, 'ordering': '-rating'}
     similar_resp = requests.get(similar_url, params=similar_params)
     
     similar_games = similar_resp.json().get("results", [])
